@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>吴星呈 · 数据分析师</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+:root{--bg:#fafafa;--card:#fff;--text:#1a1a2e;--muted:#6b7280;--border:#e5e7eb;--accent:#2563eb;--accent-light:#dbeafe;--radius:8px;--font:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}
+@media(prefers-color-scheme:dark){:root{--bg:#111;--card:#1a1a1a;--text:#e5e5e5;--muted:#9ca3af;--border:#2a2a2a;--accent:#60a5fa;--accent-light:#1e3a5f}}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:1.6;-webkit-text-size-adjust:100%}
+a{color:var(--accent);text-decoration:none}
+a:hover{opacity:0.8}
+.container{max-width:960px;margin:0 auto;padding:0 20px}
+
+/* === 导航 (含移动端汉堡菜单) === */
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(250,250,250,0.95);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+@media(prefers-color-scheme:dark){.nav{background:rgba(17,17,17,0.95)}}
+.nav .container{display:flex;align-items:center;justify-content:space-between;height:56px;position:relative}
+.nav-logo{font-weight:700;font-size:1.1rem;color:var(--text)!important;letter-spacing:1px}
+.nav-links{display:flex;gap:24px;list-style:none;transition:all 0.3s}
+.nav-links a{color:var(--muted);font-size:0.85rem;font-weight:500;padding:4px 0}
+.nav-links a:hover{color:var(--text)}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px;z-index:101}
+.hamburger span{display:block;width:22px;height:2px;background:var(--text);border-radius:2px;transition:all 0.3s}
+.hamburger.active span:nth-child(1){transform:rotate(45deg)translate(5px,5px)}
+.hamburger.active span:nth-child(2){opacity:0}
+.hamburger.active span:nth-child(3){transform:rotate(-45deg)translate(5px,-5px)}
+.nav-overlay{display:none;position:fixed;inset:0;z-index:98;background:rgba(0,0,0,0.3)}
+
+/* Hero */
+.hero{padding:140px 20px 60px;text-align:center;max-width:640px;margin:0 auto}
+.hero h1{font-size:2.8rem;font-weight:700;letter-spacing:-0.02em;margin-bottom:8px}
+.hero .sub{color:var(--muted);font-size:1.05rem;margin-bottom:20px}
+.hero .bio{color:var(--muted);font-size:0.9rem;line-height:1.7;margin-bottom:28px}
+.hero-actions{display:flex;gap:12px;justify-content:center;margin-bottom:24px;flex-wrap:wrap}
+.btn{padding:10px 24px;border-radius:6px;font-size:0.88rem;font-weight:500;border:none;cursor:pointer;transition:all 0.2s}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:hover{opacity:0.9}
+.btn-outline{border:1px solid var(--border);background:transparent;color:var(--text)}
+.btn-outline:hover{border-color:var(--accent);color:var(--accent)}
+.hero-links{display:flex;gap:16px;justify-content:center}
+.hero-links a{color:var(--muted);font-size:1.1rem;width:36px;height:36px;border-radius:50%;border:1px solid var(--border);display:inline-flex;align-items:center;justify-content:center;transition:all 0.2s}
+.hero-links a:hover{border-color:var(--accent);color:var(--accent)}
+
+/* Sections */
+.section{padding:60px 0}
+.section-title{font-size:1.3rem;font-weight:600;margin-bottom:28px;letter-spacing:-0.01em}
+
+/* About */
+.about-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.about-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px}
+.about-card i{color:var(--accent);margin-bottom:10px;font-size:1.3rem}
+.about-card h3{font-size:0.95rem;margin-bottom:6px}
+.about-card p{color:var(--muted);font-size:0.85rem;line-height:1.6}
+
+/* Projects */
+.project-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:28px;margin-bottom:28px}
+.project-card h2{font-size:1.1rem;font-weight:600;margin-bottom:4px}
+.project-meta{color:var(--muted);font-size:0.82rem;margin-bottom:12px}
+.project-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.project-tag{padding:2px 10px;border-radius:4px;font-size:0.75rem;background:var(--accent-light);color:var(--accent);font-weight:500}
+.project-body{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.project-body p{color:var(--muted);font-size:0.88rem;line-height:1.7;margin-bottom:12px}
+.project-body li{color:var(--muted);font-size:0.85rem;padding:3px 0 3px 16px;position:relative;list-style:none}
+.project-body li::before{content:"\2013";position:absolute;left:0;color:var(--accent)}
+.project-img{width:100%;border-radius:6px;border:1px solid var(--border);cursor:pointer;transition:all 0.2s}
+.project-img:hover{box-shadow:0 4px 20px rgba(0,0,0,0.08)}
+.metrics{display:flex;gap:24px;padding:12px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);margin-bottom:14px;flex-wrap:wrap}
+.metric{text-align:center;flex:1;min-width:70px}
+.metric-val{display:block;font-size:1.15rem;font-weight:600;color:var(--text)}
+.metric-lbl{font-size:0.7rem;color:var(--muted)}
+.expand-btn{background:none;border:1px solid var(--border);color:var(--muted);padding:6px 16px;border-radius:6px;font-size:0.82rem;cursor:pointer;transition:all 0.2s}
+.expand-btn:hover{border-color:var(--accent);color:var(--accent)}
+.expand{display:none;margin-top:16px}
+.expand.open{display:block}
+.detail-box{background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:20px;margin-bottom:12px}
+.detail-box h4{font-size:0.9rem;font-weight:600;margin-bottom:8px;color:var(--text)}
+.detail-box p,.detail-box li{color:var(--muted);font-size:0.85rem;line-height:1.7}
+.detail-box li{padding:2px 0;list-style:disc;margin-left:16px}
+.comp-table{width:100%;border-collapse:collapse;font-size:0.85rem}
+.comp-table th,.comp-table td{padding:8px 12px;text-align:left;border:1px solid var(--border)}
+.comp-table th{background:var(--bg);font-weight:600;color:var(--muted)}
+.comp-table .best{color:var(--accent);font-weight:700}
+.img-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0}
+
+/* Timeline */
+.timeline{max-width:600px}
+.timeline-item{padding-left:20px;border-left:2px solid var(--border);margin-bottom:24px;padding-bottom:4px}
+.timeline-item h3{font-size:0.95rem;font-weight:600}
+.timeline-item .date{color:var(--muted);font-size:0.8rem;margin-bottom:4px}
+.timeline-item .org{color:var(--accent);font-size:0.85rem;margin-bottom:6px}
+.timeline-item li{color:var(--muted);font-size:0.85rem;padding:2px 0 2px 16px;position:relative;list-style:none}
+.timeline-item li::before{content:"\2013";position:absolute;left:0;color:var(--accent)}
+
+/* Skills */
+.skills-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.skill-group h3{font-size:0.88rem;font-weight:600;margin-bottom:10px}
+.skill-group h3 i{color:var(--accent);margin-right:6px}
+.skill-row{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.skill-row .label{min-width:120px;font-size:0.82rem;color:var(--muted);flex-shrink:0}
+.bar{flex:1;height:4px;background:var(--border);border-radius:2px;overflow:hidden}
+.bar-fill{height:100%;background:var(--accent);border-radius:2px;width:0;transition:width 1s ease}
+
+/* Contact */
+.contact-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.contact-item{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;text-align:center}
+.contact-item i{color:var(--accent);font-size:1.2rem;margin-bottom:8px}
+.contact-item h3{font-size:0.85rem;margin-bottom:4px}
+.contact-item a,.contact-item p{color:var(--muted);font-size:0.82rem}
+
+/* Footer */
+.footer{padding:32px 20px;text-align:center;color:var(--muted);font-size:0.8rem;border-top:1px solid var(--border)}
+.footer .links{display:flex;gap:12px;justify-content:center;margin-top:8px}
+.footer .links a{color:var(--muted)}
+
+/* Modal */
+.modal-overlay{display:none;position:fixed;inset:0;z-index:200;background:rgba(0,0,0,0.6);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
+.modal-overlay.show{display:block}
+.modal-img{display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:201}
+.modal-img.show{display:block}
+.modal-img img{max-width:92vw;max-height:85vh;border-radius:8px;box-shadow:0 8px 40px rgba(0,0,0,0.3)}
+.modal-img .close-btn{position:absolute;top:-14px;right:-8px;width:32px;height:32px;border-radius:50%;background:var(--card);border:1px solid var(--border);cursor:pointer;font-size:1.1rem;display:flex;align-items:center;justify-content:center;color:var(--muted)}
+
+/* Scroll animation */
+.section{opacity:0;transform:translateY(20px);transition:all 0.6s ease}
+.section.visible{opacity:1;transform:translateY(0)}
+
+/* ===== 移动端响应式 ===== */
+@media(max-width:768px){
+.nav-links{position:fixed;top:0;right:-280px;width:260px;height:100vh;flex-direction:column;background:var(--card);padding:80px 24px 24px;gap:0;box-shadow:-4px 0 20px rgba(0,0,0,0.1);z-index:99}
+.nav-links li{border-bottom:1px solid var(--border);padding:14px 0}
+.nav-links a{font-size:1rem}
+.nav-links.open{right:0}
+.hamburger{display:flex}
+.nav-overlay.show{display:block}
+.hero{padding:110px 20px 50px}
+.hero h1{font-size:2rem}
+.hero .sub{font-size:0.95rem}
+.about-grid,.contact-grid{grid-template-columns:1fr}
+.project-body{grid-template-columns:1fr}
+.project-body .project-img{order:-1;margin-bottom:8px}
+.skills-grid{grid-template-columns:1fr}
+.img-row{grid-template-columns:1fr}
+.metric{min-width:60px}
+.comp-table{font-size:0.78rem}
+.comp-table th,.comp-table td{padding:6px 8px}
+}
+
+@media(max-width:480px){
+.hero h1{font-size:1.6rem}
+.section{padding:40px 0}
+.project-card{padding:20px}
+.metrics{gap:8px}
+.metric-val{font-size:1rem}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav" id="nav">
+<div class="container">
+<a href="#" class="nav-logo">WXC</a>
+<ul class="nav-links" id="navLinks">
+<li><a href="#about" onclick="closeNav()">关于</a></li>
+<li><a href="#projects" onclick="closeNav()">项目</a></li>
+<li><a href="#exp" onclick="closeNav()">经历</a></li>
+<li><a href="#skills" onclick="closeNav()">技能</a></li>
+<li><a href="#contact" onclick="closeNav()">联系</a></li>
+</ul>
+<button class="hamburger" id="hamburger" onclick="toggleNav()" aria-label="菜单">
+<span></span><span></span><span></span>
+</button>
+</div>
+</nav>
+<div class="nav-overlay" id="navOverlay" onclick="closeNav()"></div>
+
+<section class="hero">
+<h1>吴星呈</h1>
+<p class="sub">数据分析师 · 数据科学与大数据技术</p>
+<p class="bio">熟练掌握 SQL、Python、Power BI 进行数据清洗、分析和可视化。具备机器学习建模全流程经验，包括数据预处理、多模型对比、调参优化与 SHAP 可解释性分析。</p>
+<div class="hero-actions">
+<a href="#projects" class="btn btn-primary">查看项目</a>
+<a href="#contact" class="btn btn-outline">联系我</a>
+</div>
+<div class="hero-links">
+<a href="mailto:2426339134@qq.com" aria-label="邮箱"><i class="fas fa-envelope"></i></a>
+<a href="tel:18155252366" aria-label="电话"><i class="fas fa-phone"></i></a>
+<a href="https://github.com/wuxingcheng" aria-label="GitHub" target="_blank"><i class="fab fa-github"></i></a>
+</div>
+</section>
+
+<section class="section" id="about">
+<div class="container">
+<h2 class="section-title">关于</h2>
+<div class="about-grid">
+<div class="about-card"><i class="fas fa-graduation-cap"></i><h3>教育</h3><p>蚌埠工商学院 · 数据科学与大数据技术<br>2022 – 2026</p></div>
+<div class="about-card"><i class="fas fa-briefcase"></i><h3>求职</h3><p>数据分析师 / 数据运营 · 安徽</p></div>
+<div class="about-card"><i class="fas fa-award"></i><h3>荣誉</h3><p>华为 HarmonyOS 认证<br>大数据分析技能大赛 · 省级三等奖</p></div>
+</div>
+</div>
+</section>
+
+<section class="section" id="projects">
+<div class="container">
+<h2 class="section-title">项目</h2>
+
+<div class="project-card">
+<h2>电商平台用户行为分析与销售数据可视化</h2>
+<p class="project-meta">2025.04</p>
+<div class="project-tags"><span class="project-tag">Python</span><span class="project-tag">Pandas</span><span class="project-tag">SQL</span><span class="project-tag">Power BI</span></div>
+<div class="project-body">
+<div>
+<p>基于 UCI Online Retail 数据集（54万+交易，4,327 客户，37 国），完成从清洗到可视化的完整分析流程。</p>
+<div class="metrics">
+<div class="metric"><span class="metric-val">54万+</span><span class="metric-lbl">交易</span></div>
+<div class="metric"><span class="metric-val">64.1%</span><span class="metric-lbl">复购率</span></div>
+<div class="metric"><span class="metric-val">77.1%</span><span class="metric-lbl">高价值客户占比</span></div>
+<div class="metric"><span class="metric-val">£861万</span><span class="metric-lbl">总收入</span></div>
+</div>
+<ul>
+<li>数据清洗：剔除 25%缺失 + 异常交易，保留 39.4 万有效记录</li>
+<li>RFM 分层：1,259 名高价值客户（29.1%）贡献 77.1% 收入</li>
+<li>活跃时段：工作日 10:00–15:00 高峰，11 月环比+25%</li>
+<li>Power BI：3 页交互仪表板，支持切片筛选</li>
+</ul>
+</div>
+<div><img src="images/ecommerce_dashboard.png" class="project-img" alt="综合分析看板" onclick="openImg(this.src)"></div>
+</div>
+<button class="expand-btn" onclick="toggle('ecom')">+ 展开分析细节</button>
+<div class="expand" id="ecom">
+<div class="detail-box"><h4>数据清洗流程</h4><p>原始 541,909 行 → 剔除 CustomerID 缺失（135,080）→ 剔除异常 → 最终 394,150 行</p></div>
+<div class="detail-box"><h4>SQL 查询（6 类 17 条）</h4><p>概况 / 活跃时段 / 商品 / 复购(64.1%) / RFM / 地域</p></div>
+<div class="detail-box"><h4>Power BI 仪表板</h4><p><strong>销售总览：</strong>KPI + 月度趋势 + 各国占比 + 切片器<br><strong>用户行为：</strong>小时/星期分布 + RFM 散点<br><strong>商品分析：</strong>Top 10 + 明细表（条件格式）</p></div>
+</div>
+</div>
+
+<div class="project-card">
+<h2>基于机器学习的心血管疾病风险分析及预测</h2>
+<p class="project-meta">2025.12 – 2026.03 · 毕业设计</p>
+<div class="project-tags"><span class="project-tag">Python</span><span class="project-tag">Scikit-learn</span><span class="project-tag">XGBoost</span><span class="project-tag">LightGBM</span><span class="project-tag">SMOTE</span><span class="project-tag">SHAP</span></div>
+<div class="project-body">
+<div>
+<p>基于三甲医院 70,000 条体检数据，构建心血管疾病风险预测模型，辅助早期筛查。</p>
+<div class="metrics">
+<div class="metric"><span class="metric-val">70,000</span><span class="metric-lbl">样本</span></div>
+<div class="metric"><span class="metric-val">0.801</span><span class="metric-lbl">AUC</span></div>
+<div class="metric"><span class="metric-val">83.6%</span><span class="metric-lbl">准确率</span></div>
+<div class="metric"><span class="metric-val">4种</span><span class="metric-lbl">模型对比</span></div>
+</div>
+<ul>
+<li>均值/KNN 填补缺失，构建 BMI、高血压分级等衍生特征</li>
+<li>LR(0.741) → RF(0.773) → XGB(0.789) → LightGBM(0.801)</li>
+<li>SMOTE 平衡样本，SHAP 识别 Top 5 危险因素</li>
+</ul>
+</div>
+<div><img src="images/模型ROC曲线.png" class="project-img" alt="ROC曲线对比" onclick="openImg(this.src)"></div>
+</div>
+<button class="expand-btn" onclick="toggle('ml')">+ 展开模型细节</button>
+<div class="expand" id="ml">
+<div class="detail-box">
+<h4>模型性能对比</h4>
+<table class="comp-table">
+<tr><th>模型</th><th>AUC</th><th>准确率</th><th>精确率</th><th>召回率</th><th>F1</th></tr>
+<tr><td>逻辑回归</td><td>0.741</td><td>78.5%</td><td>72.3%</td><td>74.2%</td><td>73.2%</td></tr>
+<tr><td>随机森林</td><td>0.773</td><td>81.3%</td><td>78.1%</td><td>76.8%</td><td>77.4%</td></tr>
+<tr><td>XGBoost</td><td>0.789</td><td>82.1%</td><td>79.5%</td><td>77.5%</td><td>78.5%</td></tr>
+<tr><td class="best">LightGBM</td><td class="best">0.801</td><td class="best">83.6%</td><td class="best">81.2%</td><td class="best">79.2%</td><td class="best">80.2%</td></tr>
+</table>
+</div>
+<div class="img-row">
+<div class="detail-box"><h4>特征重要性</h4><img src="images/LightGBM特征重要性.png" style="width:100%;border-radius:4px;margin-top:8px" onclick="openImg(this.src)"></div>
+<div class="detail-box"><h4>模型对比柱状图</h4><img src="images/模型性能对比柱状图.png" style="width:100%;border-radius:4px;margin-top:8px" onclick="openImg(this.src)"></div>
+</div>
+<div class="detail-box">
+<h4>Top 5 核心危险因素（SHAP）</h4>
+<table class="comp-table">
+<tr><th>#</th><th>因素</th><th>临床意义</th></tr>
+<tr><td>1</td><td><strong>收缩压</strong></td><td>每升高 10mmHg，风险增加约 20%</td></tr>
+<tr><td>2</td><td><strong>年龄</strong></td><td>50 岁以上人群风险显著升高</td></tr>
+<tr><td>3</td><td><strong>LDL-C</strong></td><td>"坏胆固醇"，水平越高风险越大</td></tr>
+<tr><td>4</td><td><strong>空腹血糖</strong></td><td>> 6.1mmol/L 时风险显著</td></tr>
+<tr><td>5</td><td><strong>BMI</strong></td><td>超重/肥胖人群风险显著高于正常</td></tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<section class="section" id="exp">
+<div class="container">
+<h2 class="section-title">经历</h2>
+<div class="timeline">
+<div class="timeline-item">
+<h3>数据分析实习生</h3>
+<p class="date">2025.11 – 2026.04</p>
+<p class="org">中广有线信息网络有限公司 · 蚌埠分公司</p>
+<ul>
+<li>SQL 提取 3,000+ 投诉工单，建立 5 类投诉标签体系</li>
+<li>发现机顶盒故障占投诉 80%，光改升级期间投诉环比+20%</li>
+<li>定位故障平均处理周期 36 小时的关键瓶颈</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+
+<section class="section" id="skills">
+<div class="container">
+<h2 class="section-title">技能</h2>
+<div class="skills-grid">
+<div class="skill-group"><h3><i class="fas fa-database"></i> 数据提取</h3>
+<div class="skill-row"><span class="label">SQL</span><div class="bar"><div class="bar-fill" data-w="90"></div></div></div>
+<div class="skill-row"><span class="label">Python</span><div class="bar"><div class="bar-fill" data-w="85"></div></div></div>
+</div>
+<div class="skill-group"><h3><i class="fas fa-chart-line"></i> 分析与可视化</h3>
+<div class="skill-row"><span class="label">Pandas / NumPy</span><div class="bar"><div class="bar-fill" data-w="85"></div></div></div>
+<div class="skill-row"><span class="label">Power BI / Tableau</span><div class="bar"><div class="bar-fill" data-w="80"></div></div></div>
+<div class="skill-row"><span class="label">Matplotlib</span><div class="bar"><div class="bar-fill" data-w="75"></div></div></div>
+</div>
+<div class="skill-group"><h3><i class="fas fa-brain"></i> 机器学习</h3>
+<div class="skill-row"><span class="label">Scikit-learn</span><div class="bar"><div class="bar-fill" data-w="80"></div></div></div>
+<div class="skill-row"><span class="label">XGBoost/LightGBM</span><div class="bar"><div class="bar-fill" data-w="75"></div></div></div>
+<div class="skill-row"><span class="label">SHAP</span><div class="bar"><div class="bar-fill" data-w="70"></div></div></div>
+</div>
+<div class="skill-group"><h3><i class="fas fa-tools"></i> 工具</h3>
+<div class="skill-row"><span class="label">Excel</span><div class="bar"><div class="bar-fill" data-w="90"></div></div></div>
+<div class="skill-row"><span class="label">Hadoop / Linux</span><div class="bar"><div class="bar-fill" data-w="65"></div></div></div>
+<div class="skill-row"><span class="label">Git</span><div class="bar"><div class="bar-fill" data-w="75"></div></div></div>
+</div>
+</div>
+</div>
+</section>
+
+<section class="section" id="contact">
+<div class="container">
+<h2 class="section-title">联系</h2>
+<div class="contact-grid">
+<div class="contact-item"><i class="fas fa-envelope"></i><h3>邮箱</h3><a href="mailto:2426339134@qq.com">2426339134@qq.com</a></div>
+<div class="contact-item"><i class="fas fa-phone"></i><h3>电话</h3><a href="tel:18155252366">181-5525-2366</a></div>
+<div class="contact-item"><i class="fas fa-map-marker-alt"></i><h3>地址</h3><p>安徽 · 蚌埠</p></div>
+<div class="contact-item"><i class="fas fa-file-pdf"></i><h3>简历</h3><a href="resume.pdf">下载 PDF</a></div>
+</div>
+</div>
+</section>
+
+<footer class="footer">
+<p>&copy; 2026 吴星呈</p>
+<div class="links">
+<a href="mailto:2426339134@qq.com" aria-label="邮箱"><i class="fas fa-envelope"></i></a>
+<a href="https://github.com/wuxingcheng" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a>
+</div>
+</footer>
+
+<div class="modal-overlay" id="modalOverlay" onclick="closeImg()"></div>
+<div class="modal-img" id="modalImg"><img id="fullImg" src="" alt=""><button class="close-btn" onclick="closeImg()">&times;</button></div>
+
+<script>
+function toggle(id){document.getElementById(id).classList.toggle('open')}
+function toggleNav(){
+  document.getElementById('navLinks').classList.toggle('open');
+  document.getElementById('hamburger').classList.toggle('active');
+  document.getElementById('navOverlay').classList.toggle('show');
+  document.body.style.overflow=document.getElementById('navLinks').classList.contains('open')?'hidden':'';
+}
+function closeNav(){
+  document.getElementById('navLinks').classList.remove('open');
+  document.getElementById('hamburger').classList.remove('active');
+  document.getElementById('navOverlay').classList.remove('show');
+  document.body.style.overflow='';
+}
+function openImg(s){
+  document.getElementById('fullImg').src=s;
+  document.getElementById('modalOverlay').classList.add('show');
+  document.getElementById('modalImg').classList.add('show');
+  document.body.style.overflow='hidden';
+}
+function closeImg(){
+  document.getElementById('modalOverlay').classList.remove('show');
+  document.getElementById('modalImg').classList.remove('show');
+  document.body.style.overflow='';
+}
+document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeImg();closeNav()}});
+
+// Scroll animation
+var obs=new IntersectionObserver(function(e){
+  e.forEach(function(x){if(x.isIntersecting){x.target.classList.add('visible');obs.unobserve(x.target)}}
+)},{threshold:0.1});
+document.querySelectorAll('.section').forEach(function(s){obs.observe(s)});
+
+// Skill bar animation
+var bo=new IntersectionObserver(function(e){
+  e.forEach(function(x){if(x.isIntersecting){x.target.querySelectorAll('.bar-fill').forEach(function(f){f.style.width=f.getAttribute('data-w')+'%'});bo.unobserve(x.target)}}
+)},{threshold:0.3});
+document.querySelectorAll('.skill-group').forEach(function(s){bo.observe(s)});
+</script>
+</body>
+</html>
